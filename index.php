@@ -6,6 +6,11 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="moment.js"></script>
 	<script src="kalender.js"></script>
+	<script>
+		$(document).ready(function() {
+			calendar();
+		});
+	</script>
 	<link rel="stylesheet" type="text/css" href="style.css"/>
 
 	<title>Trying to make a Calendaaaar!</title>

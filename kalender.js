@@ -1,22 +1,17 @@
-jQuery(document).ready(function($) {
-
+function calendar() {
 // Settings
-	// Danish
-	moment.lang('da');
+	// Danish language
+	moment.lang('da'); // NB! for some reason "pushFirstDayOfMonth" don't need to be deducted 1 day with the danish language active.
 
 // Variables
-	// Day
 	currentDay = moment().format('DD');
-	// Month
 	currentMonth = moment().format('MM');
-	currentMonth = 4;
-
-	// Year
 	currentYear = moment().format('YYYY');
+	month = currentMonth; // Default month on load.
 
-// Month
-	month = currentMonth;
-	monthText = moment(currentMonth, 'MM').format('MMMM');
+function adjustCalendar() {
+// Month + caption
+	monthText = moment(month, 'MM').format('MMMM');
 	$('table caption').text(monthText);
 
 // Calendar days
@@ -26,10 +21,6 @@ jQuery(document).ready(function($) {
 	daysInCurrentMonth = moment(currentMonth, 'MM').daysInMonth();
 	// Calculates the max amount of calender days.
 	calendarDays = daysInCurrentMonth - pushFirstDayOfMonth;
-
-
-// Caption
-
 
 // Mark-up
 	var appendStr;
@@ -72,14 +63,18 @@ jQuery(document).ready(function($) {
 			$(this).addClass('currentDay');
 		}
 	});
-});
+}
 
+// Init on load.
+	adjustCalendar();
 
-/* NOT IN USE:
-
-// Variables
-month = 2; // Used in "daysInMonth"
-daysInMonth = moment(month, 'MM').daysInMonth(); // Set month as first parameter in "moment".
-dayOfWeek = moment().format('e'); // returns as 1-7
-
-*/
+// Adjust on month-change.
+	$('.next').click(function() {
+		month++;
+		adjustCalendar();
+	});
+	$('.prev').click(function() {
+		month--;
+		adjustCalendar();
+	});
+}
