@@ -8,7 +8,7 @@
 	<script src="kalender.js"></script>
 	<script>
 		$(document).ready(function() {
-			calendar();
+			calendar('da');
 		});
 	</script>
 	<link rel="stylesheet" type="text/css" href="style.css"/>
@@ -21,15 +21,7 @@
 	<table>
 		<caption></caption>
 		<thead>
-			<tr>
-				<th>Man</th>
-				<th>Tir</th>
-				<th>Ons</th>
-				<th>Tor</th>
-				<th>Fre</th>
-				<th>Lør</th>
-				<th>Søn</th>
-			</tr>
+			<tr><!--jQuery inserts days as head--></tr>
 		</thead>
 		<tbody>
 

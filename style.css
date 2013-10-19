@@ -33,6 +33,7 @@ table th {
 	background: #3883a3;
 	padding: 15px 20px;
 	color: white;
+	text-transform: capitalize;
 }
 
 table td {
@@ -67,4 +68,10 @@ table td.active {
 	width: 60px;
 	margin: 0 auto;
 	text-align: center;
+	cursor: pointer;
+
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;
 }
