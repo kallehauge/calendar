@@ -3,9 +3,9 @@ function calendar(lang) {
 	currentDay		= 	moment().format('DD');	 // Today's day.
 	currentMonth	= 	moment().format('MM');	 // Today's month.
 	currentYear 	= 	moment().format('YYYY'); // Today's year.
-	month 			=	currentMonth;	// Default month on load.
 	// Define default.
 	var monthChange = 0;
+	var storedDate;
 
 	// Load on init
 	function staticContent(lang) {
@@ -39,17 +39,17 @@ function calendar(lang) {
 		// Define variables and set default.
 		change = change || 0;
 		activeDay = activeDay || null;
+		// Determine how many months to add or subtract.
+		monthChange += change;
+		// New Date
+		newDate = moment().add('months', monthChange);
+		// Active month dates.
+		calendarMonth = newDate.format('MM');
+		calendarYear = newDate.format('YYYY');
+		calendarFull = newDate.format('MM-DD-YYYY');
 
 		// If the month have been changed
 		if (activeDay === null) {
-			// Determine how many months to add or subtract.
-			monthChange += change;
-			// New Date
-			newDate = moment().add('months', monthChange);
-			// Active month dates.
-			calendarMonth = newDate.format('MM');
-			calendarYear = newDate.format('YYYY');
-			calendarFull = newDate.format('MM-DD-YYYY');
 
 			function appendMonth(month) {
 				monthText = moment(month).format('MMMM');
@@ -103,7 +103,7 @@ function calendar(lang) {
 						$(this).html('');
 					}
 					// If date is equal to today
-					if (calendarDate == currentDay) {
+					if (calendarDate == currentDay && calendarMonth == currentMonth && calendarYear == currentYear) {
 						$(this).addClass('currentDay');
 					}
 				});
@@ -118,13 +118,15 @@ function calendar(lang) {
 		// If activeDay != null (a <td> have been clicked).
 		else {
 			$('tbody td').each(function() {
-				tdDate = $(this).text();
-				if (activeDay == tdDate) {
+				tdDay = $(this).text();
+
+				if (activeDay == tdDay) {
 					$(this).addClass('active');
 				} else {
 					$(this).removeClass('active');
 				}
-			});
+				// var = storedDate
+			}); // end each
 		}
 	}
 
