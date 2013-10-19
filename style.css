@@ -4,6 +4,11 @@
 	-webkit-font-smoothing: antialiased;
 	font-family: sans-serif;
 }
+*, *:before, *:after {
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
 
 body {
 	background: #414141;
@@ -44,8 +49,14 @@ table td:hover {
 	background: #fff;
 }
 
+table td.currentDay {
+	color: #3883a3;
+	background: #f4f4f4;
+}
 table td.active {
-	border-bottom: 1px solid #3883a3;
+	border-bottom: 3px solid #3883a3;
+	background: #fff;
+	color: #3883a3;
 }
 
 .next, .prev {
