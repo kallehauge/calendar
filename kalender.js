@@ -11,9 +11,7 @@ jQuery(document).ready(function($) {
 
 	// First day of the month (static: current month). (deduct 1 at the end to compensate for "the actual day").
 	pushFirstDayOfMonth = parseInt(moment(currentMonth+'-01-'+currentYear,'MM-DD-YYYY').format('e'))-1;
-
-	daysInCurrentMonth = 31;
-	pullLastDaysOfWeek = 3;
+	// Calculates the max amount of calender days.
 	calendarDays = daysInCurrentMonth - pushFirstDayOfMonth;
 
 // Mark-up
