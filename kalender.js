@@ -5,7 +5,9 @@ function calendar(lang) {
 	currentYear 	= 	moment().format('YYYY'); // Today's year.
 	// Define default.
 	var monthChange = 0;
-	var storedDate;
+	var storedDay;
+	var storedMonth;
+	var storedYear;
 
 	// Load on init
 	function staticContent(lang) {
@@ -51,9 +53,11 @@ function calendar(lang) {
 		// If the month have been changed
 		if (activeDay === null) {
 
-			function appendMonth(month) {
-				monthText = moment(month).format('MMMM');
-				$('table caption').text(monthText);
+			function appendHeadline(month, year) {
+				month = moment(month).format('MMMM');
+				year = moment(year).format('YYYY');
+				$('table caption .month').text(month);
+				$('table caption .year').text(year);
 			}
 
 			function appendMarkup(month, year, push) {
@@ -86,7 +90,7 @@ function calendar(lang) {
 				}
 				appendStr += '</tr>';
 
-				// Remove existing table-rows (tr).
+				// Remove existing tbody-rows (tr).
 				$('table tbody tr').remove();
 
 				// Append new tablerows.
@@ -94,9 +98,16 @@ function calendar(lang) {
 			}
 
 			function styleMarkup() {
+				// if data matches last time a td were clicked
+				if (storedMonth == calendarMonth && storedYear == calendarYear) {
+					activeMonth = 1;
+				} else {
+					activeMonth = 0;
+				}
+
 				$('table tbody td').each(function() {
 					// Get date inside td's
-					calendarDate = $(this).text();
+					calendarDate = parseInt($(this).text());
 					// If date is less than 1, make the day, blank.
 					if (calendarDate < 1) {
 						// Replace the html of "td" with null.
@@ -106,26 +117,36 @@ function calendar(lang) {
 					if (calendarDate == currentDay && calendarMonth == currentMonth && calendarYear == currentYear) {
 						$(this).addClass('currentDay');
 					}
+					if (activeMonth == 1 && storedDay == calendarDate) {
+						$(this).addClass('active');
+					}
+
+					// console.log(storedDay);
 				});
 			}
 
 			// Execute functions.
-			appendMonth( calendarMonth );
+			appendHeadline( calendarMonth, calendarYear );
 			appendMarkup( calendarMonth, calendarYear );
 			styleMarkup();
 		}
 
 		// If activeDay != null (a <td> have been clicked).
 		else {
-			$('tbody td').each(function() {
-				tdDay = $(this).text();
+			// Set month and year for the active date.
+			storedDay	= activeDay;
+			storedMonth	= calendarMonth;
+			storedYear	= calendarYear;
 
-				if (activeDay == tdDay) {
+			// Loop through each day and remove .active from all elements that isn't the clicked date.
+			$('tbody td').each(function() {
+				tdDays = $(this).text();
+				// If date = the clicked date
+				if (activeDay == tdDays) {
 					$(this).addClass('active');
 				} else {
 					$(this).removeClass('active');
 				}
-				// var = storedDate
 			}); // end each
 		}
 	}

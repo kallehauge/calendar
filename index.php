@@ -17,9 +17,13 @@
 </head>
 <body>
 
-	<div class="prev">Prev</div><div class="next">Next</div>
 	<table>
-		<caption></caption>
+		<caption>
+			<span class="prev"><<</span>
+			<span class="month"></span>
+			<span class="year"></span>
+			<span class="next">>></span>
+		</caption>
 		<thead>
 			<tr><!--jQuery inserts days as head--></tr>
 		</thead>
