@@ -31,31 +31,36 @@ function calendar(lang) {
 		tableHead();
 	}
 
-	function adjustCalendar(changeMonth) {
-		changeMonth = changeMonth || 0;
+	// Define default.
+	var monthChange = 0;
+	// Run dynamic
+	function adjustCalendar(change) {
+		// Define default
+		change = change || 0;
+		// Determine how many months to add or subtract
+		monthChange += change;
+		//
+		newDate = moment().add('months', monthChange);
+		calendarMonth = newDate.format('MM');
+		calendarYear = newDate.format('YYYY');
+		calendarFull = newDate.format('MM-DD-YYYY');
 
-		// function setMonth(changeMonth) {
-		// 	calenderMonth = moment().subtract('months', changeMonth);
-		// 	console.log(calenderMonth);
-		// 	return calenderMonth;
-		// }
-
-		function appendMonth() {
-			monthText = moment(month, 'MM').format('MMMM');
+		function appendMonth(month) {
+			monthText = moment(month).format('MMMM');
 			$('table caption').text(monthText);
 		}
 
 		// calculates amount of days in... bla bla
-		function pushFirstDay() {
-			theFirst = parseInt(moment(month+'-01-'+currentYear,'MM-DD-YYYY').format('e')); // sunday = 0;
+		function pushFirstDay(month, year) {
+			theFirst = parseInt(moment(month+'-01-'+year,'MM-DD-YYYY').format('e')); // sunday = 0;
 			index = 1; // the days are 1-based, not 0.
 			return index - theFirst;
 		}
 
-		function appendMarkup(push) {
+		function appendMarkup(month, year, push) {
 			var appendStr;
 			x = 0;
-			daysInMonth = moment(month, 'MM').daysInMonth();
+			daysInMonth = moment(calendarMonth+'-'+calendarYear, 'MM-YYYY').daysInMonth();
 			// Push the day & append each day in the month.
 			for (i = push; i <= daysInMonth; i++) {
 				x++;
@@ -101,9 +106,10 @@ function calendar(lang) {
 
 		// Execute functions.
 		// setMonth();
-		appendMonth();
-		appendMarkup( pushFirstDay() );
+		appendMonth( calendarMonth );
+		appendMarkup( calendarMonth, calendarYear, pushFirstDay(calendarMonth, calendarYear) );
 		styleMarkup();
+		// console.log(calendarFull); // Will parse: "MM-DD-YYYY"
 	}
 
 	// Init static content (ex: lang & table-head).
@@ -113,12 +119,10 @@ function calendar(lang) {
 
 	// Prev / Next buttons
 	$('.prev').click(function() {
-		month--;
-		adjustCalendar(1);
+		adjustCalendar(-1);
 	});
 
 	$('.next').click(function() {
-		month++;
-		adjustCalendar(-1);
+		adjustCalendar(1);
 	});
 }
