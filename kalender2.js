@@ -1,35 +1,18 @@
 jQuery(document).ready(function($) {
 
-// Settings
-	// Danish
-	moment.lang('da');
-
 // Variables
 	// Day
 	currentDay = moment().format('DD');
 	// Month
 	currentMonth = moment().format('MM');
-	currentMonth = 4;
-
+	daysInCurrentMonth = moment(currentMonth, 'MM').daysInMonth();
 	// Year
 	currentYear = moment().format('YYYY');
 
-// Month
-	month = currentMonth;
-	monthText = moment(currentMonth, 'MM').format('MMMM');
-	$('table caption').text(monthText);
-
-// Calendar days
 	// First day of the month (static: current month). (deduct 1 at the end to compensate for "the actual day").
-	pushFirstDayOfMonth = parseInt(moment(currentMonth+'-01-'+currentYear,'MM-DD-YYYY').format('e'));
-	// Calculate amount of days in a/the month.
-	daysInCurrentMonth = moment(currentMonth, 'MM').daysInMonth();
+	pushFirstDayOfMonth = parseInt(moment(currentMonth+'-01-'+currentYear,'MM-DD-YYYY').format('e'))-1;
 	// Calculates the max amount of calender days.
 	calendarDays = daysInCurrentMonth - pushFirstDayOfMonth;
-
-
-// Caption
-
 
 // Mark-up
 	var appendStr;
@@ -45,12 +28,10 @@ jQuery(document).ready(function($) {
 		} else {
 			appendStr += '<td>'+i+'</td>';
 		}
-	};
+	}
 	// Finish the week with blank days.
-	if (x != 0) {
-		for (i = 1; i <= (7-x); i++) {
-			appendStr += '<td></td>';
-		};
+	for (i = 1; i <= (7-x); i++) {
+		appendStr += '<td></td>';
 	}
 	appendStr += '</tr>';
 

@@ -26,6 +26,7 @@ table {
 table>caption {
 	color: white;
 	margin-bottom: 10px;
+	text-transform: capitalize;
 }
 
 table th {
