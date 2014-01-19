@@ -1,4 +1,4 @@
-function calendar() {
+function calendar(target) {
 	// Defaults and variables
 	currentDay		=	moment().format('DD');   // Today's day.
 	currentMonth	=	moment().format('MM');   // Today's month.
@@ -9,9 +9,25 @@ function calendar() {
 	var storedMonth;
 	var storedYear;
 
+	// Define date object for ex: ajax usage.
+	var date = {
+		day: currentDay,
+		month: currentMonth,
+		year: currentYear
+	};
+
 	// Load on init
 	function staticContent() {
 
+		// Append skeleton / markup
+		function appendMarkup() {
+			// String to append
+			var str = '<table><caption><span class="prev"><<</span><span class="month"></span><span class="year"></span><span class="next">>></span></caption><thead><tr></tr></thead><tbody></tbody></table>';
+			// Append mockup
+			$(target).append(str);
+		}
+
+		// Insert table head
 		function tableHead() {
 			// Define variable
 			var th;
@@ -21,10 +37,11 @@ function calendar() {
 				th += '<th>'+moment().isoWeekday(i).format('ddd')+'</th>';
 			}
 			// Append the string to thead tr
-			$('table thead tr').append(th);
+			$(target +' table thead tr').append(th);
 		}
 
 		// Execute functions.
+		appendMarkup();
 		tableHead();
 	}
 
@@ -40,7 +57,6 @@ function calendar() {
 		// Active month dates.
 		calendarMonth = newDate.format('MM');
 		calendarYear = newDate.format('YYYY');
-		calendarFull = newDate.format('MM-DD-YYYY');
 
 		function appendHeadline(month, year) {
 			// Convert month from int to string.
@@ -72,11 +88,11 @@ function calendar() {
 				month = 'Error in month';
 			}
 			// Append month and year to caption
-			$('table caption .month').text(month);
-			$('table caption .year').text(year);
+			$(target +' table caption .month').text(month);
+			$(target +' table caption .year').text(year);
 		}
 
-		function appendMarkup(month, year, push) {
+		function appendDays(month, year, push) {
 			// Define
 			var appendStr;
 			// Push
@@ -104,16 +120,15 @@ function calendar() {
 					appendStr += '<td></td>';
 				}
 			}
+
 			appendStr += '</tr>';
-
 			// Remove existing tbody-rows (tr).
-			$('table tbody tr').remove();
-
+			$(target +' table tbody tr').remove();
 			// Append new tablerows.
-			$('table tbody').append(appendStr);
+			$(target +' table tbody').append(appendStr);
 		}
 
-		function styleMarkup() {
+		function styleDays() {
 			// if data matches last time a td were clicked
 			if (storedMonth == calendarMonth && storedYear == calendarYear) {
 				activeMonth = 1;
@@ -121,7 +136,7 @@ function calendar() {
 				activeMonth = 0;
 			}
 			// Loop through each day
-			$('table tbody td').each(function() {
+			$(target +' table tbody td').each(function() {
 				// Get date inside td's
 				calendarDate = parseInt($(this).text(), 10);
 				// If date is less than 1, make the day, blank.
@@ -139,12 +154,12 @@ function calendar() {
 			});
 		}
 
-		// If the month have been changed
+		// If the month have been changed but no day have been clicked
 		if (activeDay === null) {
 			// Execute functions.
 			appendHeadline( calendarMonth, calendarYear );
-			appendMarkup( calendarMonth, calendarYear );
-			styleMarkup();
+			appendDays( calendarMonth, calendarYear );
+			styleDays();
 		}
 		// If activeDay != null (a <td> have been clicked).
 		else {
@@ -153,8 +168,13 @@ function calendar() {
 			storedMonth	= calendarMonth;
 			storedYear	= calendarYear;
 
+			// Change date for "class" object
+			date.day = activeDay;
+			date.month = storedMonth;
+			date.year = storedYear;
+
 			// Loop through each day and remove .active from all elements that isn't the clicked date.
-			$('tbody td').each(function() {
+			$(target +' tbody td').each(function() {
 				tdDays = $(this).text();
 				// If date = the clicked date
 				if (activeDay == tdDays) {
@@ -168,20 +188,23 @@ function calendar() {
 
 	// Init static content (ex: lang & table-head).
 	staticContent();
-	// Init the calender
+	// Init the calender && get returned data from function
 	dynamicContent();
 
 	// Prev / Next buttons
-	$('.prev').click(function() {
+	$(target +' .prev').click(function() {
 		dynamicContent(-1);
 	});
 
-	$('.next').click(function() {
+	$(target +' .next').click(function() {
 		dynamicContent(1);
 	});
 
-	$('table').delegate('tbody td', 'click', function() {
+	$(target +' table').delegate('tbody td', 'click', function() {
 		day = $(this).text();
 		dynamicContent(null, day);
 	});
+
+	// Return active date for ex: ajax usage
+	return date;
 }
