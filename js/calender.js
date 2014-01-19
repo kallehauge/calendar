@@ -22,7 +22,7 @@ function calendar(target) {
 		// Append skeleton / markup
 		function appendMarkup() {
 			// String to append
-			var str = '<table><caption><span class="prev"><<</span><span class="month"></span><span class="year"></span><span class="next">>></span></caption><thead><tr></tr></thead><tbody></tbody></table>';
+			var str = '<table><caption><span class="prev">&lt;&lt;</span><span class="month"></span><span class="year"></span><span class="next">&gt;&gt;</span></caption><thead><tr></tr></thead><tbody></tbody></table>';
 			// Append mockup
 			$(target).append(str);
 		}
