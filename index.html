@@ -7,8 +7,16 @@
 	<script src="js/calender.js"></script>
 	<script>
 		$(document).ready(function() {
-			// Init
-			date = calendar('.container');
+			// Init calendar
+			var date = calendar('.container');
+
+			// Append current date
+			$('.date').append(date.year +' - '+ date.month +' - '+ date.day);
+			// Change date on click
+			$('.container').on('click', function() {
+				$('.date').html('');
+				$('.date').append(date.year +' - '+ date.month +' - '+ date.day);
+			});
 		});
 	</script>
 	<link rel="stylesheet" type="text/css" href="css/style.css"/>
@@ -18,27 +26,14 @@
 	<title>Trying to make a Calendaaaar!</title>
 </head>
 <body>
-
+	
+	<!-- Calendar container -->
 	<div class="container"></div>
-
-<!-- 
-	<div class="container">
-		<table>
-			<caption>
-				<span class="prev"><<</span>
-				<span class="month"></span>
-				<span class="year"></span>
-				<span class="next">>></span>
-			</caption>
-			<thead>
-				<tr> jQuery inserts days as head </tr>
-			</thead>
-			<tbody>
-
-			</tbody>
-		</table>
-	</div>
--->
+	<br>
+	<!-- Display date -->
+	<center>
+		<span class="date"></span>
+	</center>
 
 </body>
 </html>
